@@ -11,7 +11,7 @@ namespace Test
     {
         static void Main(string[] args)
         {
-            Product p = new Product() { Price=17, AdditionalDetails="adsasd", Description="asdasd", Name="Name", ProductTypeID=2 };
+            Product p = new Product() { Price=17, AdditionalDetails="Aditional Details", Description="Description", Name="Name", ProductTypeID=2 };
             DataAccess.ProductDA.Add(p);
             List<Product> productTypes = DataAccess.ProductDA.GetAll();
         }
