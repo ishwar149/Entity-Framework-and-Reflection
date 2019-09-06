@@ -1,0 +1,79 @@
+﻿<script>
+
+    function AddProductItem() {
+        var formdata = new FormData();
+        var fileInput = $('#txtMainImageURL').get(0);
+        var files = fileInput.files;
+        //Iterating through each files selected in fileInput
+        for (i = 0; i < files.length; i++) {
+            //Appending each file to FormData object
+            formdata.append(files[i].name, files[i]);
+        }
+        var fileInput1 = $('#txtMoreImages').get(0);
+        var files1 = fileInput1.files;
+        //Iterating through each files selected in fileInput
+        for (i = 0; i < files1.length; i++) {
+
+            //Appending each file to FormData object
+            formdata.append(files1[i].name, files1[i]);
+        }
+
+        formdata.append('Name', $("#txtName").val());
+        formdata.append('Price', $("#txtPrice").val());
+        formdata.append('Description', $("#txtDescription").val());
+        formdata.append('AdditionalDetails', $("#txtAdditionalDetails").val());
+        formdata.append('ProductTypeID', $("#drpProductType option:selected").val());
+
+        $.ajax({
+            url: '/ManageSystem/AddProductItem',
+            type: "POST",
+            contentType: false, // Not to set any content header
+            processData: false, // Not to process data
+            data: formdata,
+            success: function (d) {
+                $("#ProductAddorEdit").html(d);
+            },
+            error: function (d) { console.log(d); }
+        });
+    }
+</script>
+
+<h3>Add New Product</h3>
+<form id="frmAddProduct" enctype="multipart/form-data" action="/ManageSystem/AddProductItem" method="post">
+    <table>
+        <tr>
+            <td>Name</td>
+            <td><input type="text" name="Name" id="txtName" /></td>
+        </tr>
+        <tr>
+            <td>Price</td>
+            <td><input type="text" name="Price" id="txtPrice" /></td>
+        </tr>
+        <tr>
+            <td>Description</td>
+            <td><input type="text" name="Description" id="txtDescription" /></td>
+        </tr>
+        <tr>
+            <td>Additional Details</td>
+            <td><input type="text" name="AdditionalDetails" id="txtAdditionalDetails" /></td>
+        </tr>
+        <tr>
+            <td>Product Type</td>
+            <td>
+                <select id="drpProductType" name="ProductTypeID">
+                    @foreach (BusinessObjects.ProductType P in DataAccess.ProductTypeDA.GetAll())
+                    {
+                        <option value="@P.ID">@P.Name</option>
+                    }
+                </select>
+            </td>
+        </tr>
+        <tr><td>Main Image</td><td><input type="file" name="MainImage" id="txtMainImageURL" /></td></tr>
+        <tr>
+            <td>Add More Images</td>
+            <td><input type="file" multiple name="MoreImages" id="txtMoreImages" /></td>
+        </tr>
+    </table>
+    <br />
+    <input type="button" value="Save Product" onclick="AddProductItem()" />
+</form>

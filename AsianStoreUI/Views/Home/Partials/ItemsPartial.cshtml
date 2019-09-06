@@ -1,0 +1,20 @@
+﻿<h2 class="title text-center">@ViewBag.TypeName</h2>
+
+@foreach (BusinessObjects.Product p in Model)
+{
+    <div class="col-sm-4">
+        <div class="product-image-wrapper">
+            <div class="single-products">
+                <div class="productinfo text-center">
+                    <img style="width:250px;height:225px;" src='@Url.Content(p.MainImageURL)' alt="" />
+                    <h2>@p.Price</h2>
+                    <p>@p.Name</p>
+                    <a href="#abc" onclick="AddtoCartClick(@p.ID)" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                    <a href="#abc" onclick="ItemDetails(@p.ID)" class="btn btn-default add-to-cart"><i class="fa"></i>Details</a>
+                    <input id="quantity" value="1" type="hidden" />
+                </div>
+
+            </div>
+        </div>
+    </div>
+}

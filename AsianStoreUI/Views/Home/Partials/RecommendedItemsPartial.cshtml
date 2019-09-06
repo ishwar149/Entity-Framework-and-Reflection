@@ -1,0 +1,56 @@
+﻿@model IEnumerable<BusinessObjects.Product>
+
+
+<div class="carousel-inner">
+
+    @{ for (int j = 0; j < Model.Count() / 3; j++)
+        {
+            int i = j * 3;
+            IEnumerable<BusinessObjects.Product> prdcts = Model.Skip(i).Take(3);
+
+            if (j == 0)
+            {
+                <div class="item active">
+                    @foreach (BusinessObjects.Product p in prdcts)
+                    {
+                        <div class="col-sm-4">
+                            <div class="product-image-wrapper">
+                                <div class="single-products">
+                                    <div class="productinfo text-center">
+                                        <img  style="height:100px;width:100px;" src="@p.MainImageURL" alt="" />
+                                        <h2>@p.Price</h2>
+                                        <p>@p.Name</p>
+                                        <a href="#abc" onclick="AddtoCartClick(@p.ID)" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+
+            }
+            else
+            {
+                <div class="item">
+                    @foreach (BusinessObjects.Product p in prdcts)
+                    {
+                    <div class="col-sm-4">
+                        <div class="product-image-wrapper">
+                            <div class="single-products">
+                                <div class="productinfo text-center">
+                                    <img style="height:100px;width:100px;" src="@p.MainImageURL" alt="" />
+                                    <h2>@p.Price</h2>
+                                    <p>@p.Name</p>
+                                    <a href="#abc" onclick="AddtoCartClick(@p.ID)" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    }
+                </div>
+            }
+        }
+    }
+</div>

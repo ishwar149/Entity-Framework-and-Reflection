@@ -1,0 +1,60 @@
+﻿
+@{
+    ViewBag.Title = "LoginSignUp";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script>
+
+    function signUpFormSubmit() {
+        $.ajax({
+            url: "/api/Account/Register",
+            data: $("#formSignUp").serialize(),
+            type:"POST",
+            success: function (d) {
+                location.reload();
+            },
+            error: function (d) { alert("All Fields are required please check fields and make sure both Password are same."); }
+        });
+
+    }
+</script>
+
+<section id="form" style="margin-top:50px;margin-bottom:50px;">
+    <!--form-->
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-4 col-sm-offset-1">
+                <div class="login-form">
+                    <!--login form-->
+                    <h2>Login to your account</h2>
+                    <form action="#">
+                        <input type="text" placeholder="Name" />
+                        <input type="email" placeholder="Email Address" />
+                        <span>
+                            <input type="checkbox" class="checkbox">
+                            Keep me signed in
+                        </span>
+                        <button type="submit" class="btn btn-default">Login</button>
+                    </form>
+                </div><!--/login form-->
+            </div>
+            <div class="col-sm-1">
+                <h2 class="or">OR</h2>
+            </div>
+            <div class="col-sm-4">
+                <div class="signup-form">
+                    <!--sign up form-->
+                    <h2>New User Signup!</h2>
+                    <form id="formSignUp" action="/api/Account/Register" method="post">
+                        <input type="text" placeholder="Name" name="Name"/>
+                        <input type="email" placeholder="Email Address" name="Email" />
+                        <input type="password" placeholder="Password" name="Password" />
+                        <input type="password" placeholder="Confirm Password" name="ConfirmPassword" />
+                        <button type="button" onclick="signUpFormSubmit()" class="btn btn-default">Signup</button>
+                    </form>
+                </div><!--/sign up form-->
+            </div>
+        </div>
+    </div>
+</section><!--/form-->

@@ -1,0 +1,130 @@
+﻿@model IEnumerable<BusinessObjects.Product>
+@{
+    ViewBag.Title = "Cart";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script>
+
+    function QuantityUp(ID, Price) {
+        var cartquantity = $('#cartQuantity_' + ID).val();
+        var cartq = parseInt(cartquantity) + 1;
+        SetTotal(ID, cartq, Price);
+        var carttotal = $("#CartTotal").val();
+        carttotal = (parseFloat(carttotal) + parseFloat(Price)).toFixed(2);
+        $("#CartTotal").val(carttotal);
+        $("#spancarttotal").text("$ " + carttotal);
+    }
+
+    function QuantityDown(ID, Price) {
+        var cartquantity = $('#cartQuantity_' + ID).val();
+        if (cartquantity != 1) {
+            var cartq = parseInt(cartquantity) - 1;
+            SetTotal(ID, cartq, Price);
+            var carttotal = $("#CartTotal").val();
+            carttotal = parseFloat(carttotal) - parseFloat(Price);
+            $("#CartTotal").val(carttotal);
+            $("#spancarttotal").text("$ " + carttotal);
+        }
+    }
+
+    function SetTotal(ID, cartq, Price) {
+        $('#cartQuantity_' + ID).val(cartq);
+        var total = (parseFloat(cartq) * parseFloat(Price)).toFixed(2);
+        $('#cartQuantityTotal_' + ID).text("$ " + total);
+    }
+
+
+</script>
+
+
+
+<section id="cart_items">
+    <div class="container">
+        <div class="table-responsive cart_info">
+            <table class="table table-condensed">
+                <thead>
+                    <tr class="cart_menu">
+                        <td class="image">Item</td>
+                        <td class="description"></td>
+                        <td class="price">Price</td>
+                        <td class="quantity">Quantity</td>
+                        <td class="total">Total</td>
+                        <td></td>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (BusinessObjects.Product p in Model)
+                    {
+                        <tr>
+                            <td class="cart_product">
+                                <a href=""><img style="width: 100px;" src="@p.MainImageURL" alt=""></a>
+                            </td>
+                            <td class="cart_description">
+                                <h4><a href="">@p.Name</a></h4>
+                                <p>@p.Description</p>
+                            </td>
+                            <td class="cart_price">
+                                <p>@p.Price</p>
+                            </td>
+                            <td class="cart_quantity">
+                                <div class="cart_quantity_button">
+                                    <a class="cart_quantity_up" onclick="QuantityUp(@p.ID,@p.Price)" href="#abc"> + </a>
+                                    <input class="cart_quantity_input" type="text" name="quantity" readonly="readonly" value="1" id='cartQuantity_@p.ID' autocomplete="off" size="2">
+                                    <a class="cart_quantity_down" onclick="QuantityDown(@p.ID,@p.Price)" href="#abc"> - </a>
+                                </div>
+                            </td>
+                            <td class="cart_total">
+                                <p class="cart_total_price" id='cartQuantityTotal_@p.ID'>$ @p.Price</p>
+                            </td>
+                            <td class="cart_delete">
+                                <a class="cart_quantity_delete" href="/UserAccount/DeleteCartItem?ID=@p.ID&Url=Cart"><i class="fa fa-times"></i></a>
+                            </td>
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section> <!--/#cart_items-->
+
+<section id="do_action">
+    <div class="container">
+        <div class="heading">
+            <h3>Serving Post Codes</h3>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="panel-group category-products" id="accordian">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title"><a href="#abc">Currently we are serving only hobart region but we are expanding. If you live some where else please come after few weeks Thank you.</a></h4>
+                        </div>
+                    </div>
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title"><a href="#abc">Served Post Codes</a></h4>
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title"><a href="#abc">7000 to 7050</a></h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="total_area">
+                    <input type="hidden" id="CartTotal" value="@ViewBag.CartTotal " />
+                    <ul>
+                        <li>Cart Total <span id="spancarttotal">$ @ViewBag.CartTotal </span></li>
+                    </ul>
+                    <a class="btn btn-default update" href="">Sign Up and Check Out</a>
+                    <a class="btn btn-default check_out" href="/UserAccount/CheckOut">Check Out</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section><!--/#do_action-->

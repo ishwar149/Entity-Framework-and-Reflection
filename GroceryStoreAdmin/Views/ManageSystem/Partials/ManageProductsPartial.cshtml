@@ -1,0 +1,53 @@
+﻿
+<script>
+    function AddClick() {
+        $.ajax({
+            url: "/ManageSystem/AddProduct",
+            success: function (d) {
+                $("#ProductAddorEdit").html(d);
+            },
+            error: function (d) { console.log(d); }
+        });
+    }
+
+    function EditClick(ID) {
+        $.ajax({
+            url: "/ManageSystem/EditProduct/" + ID,
+            success: function (d) {
+                $("#ProductAddorEdit").html(d);
+            },
+            error: function (d) { console.log(d); }
+        });
+    }
+
+</script>
+
+
+<div id="ProductsBase">
+    <table>
+        <tr>
+            <td>Product Photo</td>
+            <td>Product Name</td>
+            <td>Product Price</td>
+            <td>Product Descripton</td>
+        </tr>
+        @foreach (BusinessObjects.Product p in Model)
+        {
+            <tr>
+                <td><img style="width:50px; height:50px;" src="@p.MainImageURL" /></td>
+                <td><label>@p.Name</label></td>
+                <td><label>@p.Price</label></td>
+                <td><label>@p.Description</label></td>
+                <td><a href="#" onclick="EditClick(@p.ID)">Edit</a></td>
+            </tr>
+        }
+    </table>
+    <br />
+    <input type="button" id="btnAdd" value="Add New Product" onclick="AddClick()" />
+    <div id="ProductAddorEdit">
+
+    </div>
+</div>
+
+
+

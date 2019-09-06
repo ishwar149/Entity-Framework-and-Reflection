@@ -1,0 +1,27 @@
+﻿
+@{
+    ViewBag.Title = "ManageProducts";
+}
+<script type="text/javascript">
+    function drpchange() {
+        var drpval = $("#drpProductTypes option:selected").val();
+        if (drpval != 0) {
+            $.ajax({
+                url: "/ManageSystem/ManageProductsPartial/" + drpval, success: function (d) {
+                    $("#divProductsList").html(d);
+                }
+            });
+        }
+    };
+</script>
+<h4>Manage Products</h4>
+<select id="drpProductTypes" name="ID" onchange="drpchange()">
+    <option value="0">Select A Product Type</option>
+    @foreach (BusinessObjects.ProductType P in Model)
+    {
+        <option value="@P.ID">@P.Name</option>
+    }
+</select>
+
+<div id="divProductsList"></div>
+

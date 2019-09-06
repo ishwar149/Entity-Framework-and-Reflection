@@ -1,0 +1,78 @@
+﻿@model BusinessObjects.CustomerAddress
+
+<script>
+    function SaveAddress() {
+
+        $.ajax({
+            type: "POST",
+            url: "/UserAccount/SaveAddress",
+            data: $("#formAddress").serialize() + "&DeliveryNotes=" + $("#DeliveryNotes").val(),
+            success: function (d) {
+                alert("Address Saved Successfully.");
+            },
+            error: function (d) {
+                console.log(d);
+                alert("Please Check All the fields.");
+            }
+        });
+
+    }
+</script>
+
+<div class="row">
+    <div class="col-sm-3">
+        <div class="shopper-info">
+            <p>Shopper Information</p>
+            <form>
+                <input type="text" placeholder="Current User Name" value="@ViewBag.CustomerProfile.Name">
+                <input type="text" placeholder="Email" value="@ViewBag.CustomerProfile.UserContact">
+            </form>
+        </div>
+    </div>
+    <div class="col-sm-5 clearfix">
+        <div class="bill-to">
+            <div class="form-one" style="width:100%">
+                <p>Shipping Address</p>
+
+                @if (Model != null)
+                {
+                <form id="formAddress">
+
+                    <input type="text" placeholder="Name*" value="@Model.Name" name="Name">
+                    <input type="text" placeholder="Mobile*" value="@Model.MobileNumber" name="MobileNumber">
+                    <input type="text" placeholder="House Number/ Street Name" name="House_Street" value="@Model.House_Street">
+                    <input type="text" placeholder="Suburb/City Name" name="City_Suburb" value="@Model.City_Suburb">
+                    <input type="text" placeholder="Zip / Postal Code *" name="PostCode" value="@Model.PostCode">
+                    <input type="hidden" name="CustomerID" value="@ViewBag.CustomerProfile.ID">
+                    <input type="hidden" name="ID" value="@Model.ID">
+                    <select name="State">
+                        <option>Tasmania</option>
+                    </select>
+                </form>
+                }
+                else
+                {
+                    <form id="formAddress">
+                        <input type="text" placeholder="Name*" name="Name">
+                        <input type="text" placeholder="Mobile*" name="MobileNumber">
+                        <input type="text" placeholder="House Number/ Street Name" name="House_Street">
+                        <input type="text" placeholder="Suburb/City Name" name="City_Suburb">
+                        <input type="text" placeholder="Zip / Postal Code *" name="PostCode">
+                        <input type="hidden" name="CustomerID" value="@ViewBag.CustomerProfile.ID">
+                        <select name="State">
+                            <option>Tasmania</option>
+                        </select>
+                    </form>
+                }
+
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="order-message">
+            <p>Shipping Notes</p>
+            <textarea id="DeliveryNotes" name="message" placeholder="Notes about your order, Special Notes for Delivery" rows="16"></textarea>
+            <a class="btn btn-default check_out" href="#review-payment" onclick="SaveAddress()">Click To Save & Continue</a>
+        </div>
+    </div>
+</div>

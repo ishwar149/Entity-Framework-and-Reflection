@@ -1,0 +1,63 @@
+﻿@model IEnumerable<BusinessObjects.SliderProduct>
+
+
+<div id="slider-carousel" class="carousel slide" data-ride="carousel">
+    <ol class="carousel-indicators">
+        @for (int i = 0; i < Model.Count(); i++)
+        {
+            if (i == 0)
+            {
+                <li data-target="#slider-carousel" data-slide-to="@i" class="active"></li>
+            }
+            else
+            {
+                <li data-target="#slider-carousel" data-slide-to="@i"></li>
+            }
+        }
+    </ol>
+
+    <div class="carousel-inner">
+        @{ int j = 0;
+            foreach (BusinessObjects.SliderProduct sp in Model)
+            {
+                if (j == 0)
+                {
+                    <div class="item active">
+                        <div class="col-sm-6">
+                            <h1><span>@sp.Product.Name</span>- $ @sp.SalePrice</h1>
+                            <h2>@sp.Product.Description @sp.Product.AdditionalDetails</h2>
+                            <p>@sp.SaleInfoLine</p>
+                            <button type="button" onclick="AddtoCartClick(@sp.ProductID)" class="btn btn-default get">Get it now</button>
+                        </div>
+                        <div class="col-sm-6">
+                            <img style="width:400px;height:360px;" src="@sp.Product.MainImageURL" class="girl img-responsive" alt="" />
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="item">
+                        <div class="col-sm-6">
+                            <h1><span>@sp.Product.Name</span>- $ @sp.SalePrice</h1>
+                            <h2>@sp.Product.Description  @sp.Product.AdditionalDetails</h2>
+                            <p>@sp.SaleInfoLine</p>
+                            <button type="button" onclick="AddtoCartClick(@sp.ProductID)" class="btn btn-default get">Get it now</button>
+                        </div>
+                        <div class="col-sm-6">
+                            <img style="width:400px;height:360px;" src="@sp.Product.MainImageURL" class="girl img-responsive" alt="" />
+                        </div>
+                    </div>
+                }
+                j++;
+            }
+        }
+
+    </div>
+
+    <a href="#slider-carousel" class="left control-carousel hidden-xs" data-slide="prev">
+        <i class="fa fa-angle-left"></i>
+    </a>
+    <a href="#slider-carousel" class="right control-carousel hidden-xs" data-slide="next">
+        <i class="fa fa-angle-right"></i>
+    </a>
+</div>

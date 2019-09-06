@@ -1,0 +1,25 @@
+﻿@{
+    ViewBag.Title = "Manage Product Types";
+}
+
+<h4>Manage Product Types</h4>
+<br />
+@foreach (BusinessObjects.ProductType P in Model)
+{
+    <label>@P.ID</label> <label>@P.Name</label> <input type="button" value="Delete" onclick="location.href='@Url.Action("DeleteProductType", "ManageSystem",P)'" /><br />
+
+}
+
+<br />
+<h4>Add New Item</h4>
+<br />
+<form id="frmAddProductType" action="/ManageSystem/AddProductType">
+    <input type="text" id="txtName" name="Name" />
+    <br />
+    <input type="submit" value="Add New" />
+</form>
+
+
+
+
+

@@ -1,0 +1,107 @@
+﻿<script>
+    function UpdateProductItem() {
+        var formdata = new FormData();
+        var fileInput = $('#txtMoreImages').get(0);
+        var files = fileInput.files;
+        //Iterating through each files selected in fileInput
+        for (i = 0; i < files.length; i++) {
+            //Appending each file to FormData object
+            formdata.append(files[i].name, files[i]);
+        }
+        formdata.append('ID', $("#hdnID").val());
+        formdata.append('Name', $("#txtName").val());
+        formdata.append('Price', $("#txtPrice").val());
+        formdata.append('Description', $("#txtDescription").val());
+        formdata.append('AdditionalDetails', $("#txtAdditionalDetails").val());
+        formdata.append('ProductTypeID', $("#drpProductTypes option:selected").val());
+
+        $.ajax({
+            url: '/ManageSystem/UpdateProductItem',
+            type: "POST",
+            contentType: false, // Not to set any content header
+            processData: false, // Not to process data
+            data: formdata,
+            success: function (d) {
+                $("#ProductAddorEdit").html(d);
+            },
+            error: function (d) { console.log(d); }
+        });
+    }
+    function DeleteClick(ID, ProductID) {
+        $.ajax({
+            url: "/ManageSystem/DeleteImage",
+            data: { ID: ID, ProductID: ProductID },
+            success: function (d) {
+                $("#ProductAddorEdit").html(d);
+            },
+            error: function (d) { console.log(d); }
+        });
+    }
+
+    function MakeMainImage(ID, ImageURL) {
+        $.ajax({
+            url: "/ManageSystem/UpdateMainImageUrL",
+            data: { ID: ID, ImageURL: ImageURL },
+            success: function (d) {
+                $("#ProductAddorEdit").html(d);
+            },
+            error: function (d) { console.log(d); }
+        });
+    }
+</script>
+
+<h3>Edit Product</h3>
+<form id="frmAddProduct" enctype="multipart/form-data" action="/ManageSystem/AddProductItem" method="post">
+    <input type="hidden" value="@Model.ID" id="hdnID" />
+    <table>
+        <tr>
+            <td>Name</td>
+            <td><input type="text" name="Name" id="txtName" value="@Model.Name" /></td>
+        </tr>
+        <tr>
+            <td>Price</td>
+            <td><input type="text" name="Price" id="txtPrice" value="@Model.Price" /></td>
+        </tr>
+        <tr>
+            <td>Description</td>
+            <td><input type="text" name="Description" id="txtDescription" value="@Model.Description" /></td>
+        </tr>
+        <tr>
+            <td>Additional Details</td>
+            <td><input type="text" name="AdditionalDetails" id="txtAdditionalDetails" value="@Model.AdditionalDetails" /></td>
+        </tr>
+        <tr>
+            <td>Product Type</td>
+            <td>
+                <select id="drpProductTypes" name="ProductTypeID">
+                    @foreach (BusinessObjects.ProductType P in DataAccess.ProductTypeDA.GetAll())
+                    {
+                        <option value="@P.ID">@P.Name</option>
+                    }
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>Add More Images</td>
+            <td><input type="file" multiple name="MoreImages" id="txtMoreImages" /></td>
+        </tr>
+        @foreach (BusinessObjects.Image image in Model.Images)
+        {
+            <tr>
+                <td><img style="width:200px; height:200px;" src="@image.ImageURL" /></td>
+                <td>
+                    <a href="#" onclick="DeleteClick(@image.ID,@Model.ID)">Delete Image</a>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    @if (image.ImageURL != Model.MainImageURL)
+                    {
+                        <a href="#" onclick="MakeMainImage(@Model.ID, '@image.ImageURL')">Make main Image</a>
+                    }
+                </td>
+            </tr>
+
+        }
+
+    </table>
+    <br />
+    <input type="button" value="Save Product" onclick="UpdateProductItem()" />
+</form>

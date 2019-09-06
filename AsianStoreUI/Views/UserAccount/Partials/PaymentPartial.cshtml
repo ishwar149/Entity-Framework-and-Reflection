@@ -1,0 +1,34 @@
+﻿
+<style>
+    .PaymentButtons {
+        margin-left: 0px !important;
+    }
+</style>
+
+<div class="row" style="margin-bottom:25px;">
+    <div class="col-sm-3">
+        <div class="shopper-info">
+            <p>@ViewBag.PaymentTitle</p>
+            @{ if (ViewBag.PaymentType == 1)
+                {
+                    <form>
+                        <input type="text" placeholder="Mobile Number" />
+                        <a class="btn btn-default check_out PaymentButtons" href="#divPayment" onclick="GetConfirmationCode()">Get Confirmation Code</a>
+                        <br />
+                        <br />
+                        <input type="text" placeholder="Confirmation Code" />
+                        <a class="btn btn-default check_out PaymentButtons" href="#divPayment" onclick="GetConfirmationCode()">Confirm My Order</a>
+                    </form>
+                }
+                else if (ViewBag.PaymentType == 2)
+                {
+                    <label>we are currently working on this. Please use other payment methods.</label>
+                }
+                else
+                {
+                    <label>we are currently working on this. Please use other payment methods.</label>
+                }
+            }
+        </div>
+    </div>
+</div>
